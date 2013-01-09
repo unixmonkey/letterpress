@@ -1,3 +1,3 @@
-module Letterpress
-  # Your code goes here...
-end
+$:.push File.expand_path("../../lib", __FILE__)
+require 'letterpress/board'
+require 'letterpress/word'

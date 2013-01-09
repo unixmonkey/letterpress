@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "letterpress"
   s.version     = Letterpress::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["David Jones"]
+  s.email       = ["unixmonkey1@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Gem to model a Letterpress game board and suggest or simulate moves}
+  s.description = %q{This is a fun project to see how well I can simulate the state of a Letterpress game board}
 
   s.rubyforge_project = "letterpress"
 
