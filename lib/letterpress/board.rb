@@ -1,23 +1,33 @@
 module LetterPress
   class Board
-    %w(red pink blue white).each do |color|
-      attr_accessor color.to_sym
+    %w(red pink lblue dblue blue white words winners).each do |meth|
+      attr_accessor meth.to_sym
     end
 
-    def initialize(*args)
-      @red, @pink, @blue, @white = args
-      @words = Hash.new{|hash,key| hash[key] = [] } # assign key to empty array if access fails
+    def initialize(options={}, *args)
+      self.red   = options[:red]   || ''
+      self.pink  = options[:pink]  || ''
+      self.lblue = options[:lblue] || ''
+      self.dblue = options[:dblue] || ''
+      self.white = options[:white] || ''
+      start_random unless options.any?
+      @words   = Hash.new{|hash,key| hash[key] = [] } # assign key to empty array if access fails
       @winners = []
+    end
+
+    def start_random
+      alphabet = ('a'..'z').to_a
+      25.times { self.white << alphabet[rand(alphabet.size)] }
     end
 
     def to_s
       "Letters:\n"+
-        %w(red pink blue white).inject(''){|a,color| a << "#{color}(#{self.send(color)}) " } +
+        %w(red pink lblue dblue white).inject(''){|a,color| a << "#{color}(#{self.send(color)}) " } +
         "\nScore: red(#{red_points}) blue(#{blue_points})"
     end
 
     def letters
-      red + pink + blue + white
+      red + pink + lblue + dblue + white
     end
 
     def red_points
@@ -25,7 +35,7 @@ module LetterPress
     end
 
     def blue_points
-      blue.size
+      lblue.size + dblue.size
     end
 
     def play!(word) # blue team
@@ -34,37 +44,40 @@ module LetterPress
       if word.playable?
         word.to_s.chars.each do |c|
           if pink.include?(c)
-            @pink = @pink.sub(c,'') # pink turns blue
-            @blue = @blue + c
+            @pink = @pink.sub(c,'') # pink turns lblue
+            @lblue = @lblue + c
           elsif white.include?(c)
-            @white = @white.sub(c,'') # white turns blue
-            @blue = @blue + c
+            @white = @white.sub(c,'') # white turns lblue
+            @lblue = @lblue + c
           end
         end
       end
       self
     end
 
-    def show_possible_moves
+    def possible_moves
       compute_playable_words if @words.empty?
+      out = ''
       @words.sort_by{|w| "%02d" % w }.each do |score, words|
-        puts "\n**** #{score} point words ****", words.join(' ')
+        out << "\n**** #{score} point words ****\n#{words.join(' ')}"
       end
+      out
     end
 
-    def show_winning_moves
+    def winning_moves
       compute_playable_words if @words.empty?
-      puts "**** Winning moves: ****"
+      out = "**** Winning moves: ****"
       if @winners.any?
-        @words.each{|w| puts w }
+        @words.each{|w| out << w }
       else
-        puts "No winning moves this turn :("
+        out << "No winning moves this turn :("
       end
+      out
     end
 
-    def show_moves_with_letters(str)
+    def moves_with_letters(str)
       compute_playable_words if @words.empty?
-      puts "**** Words with letters: #{str} ****"
+      out = "**** Words with letters: #{str} ****"
       hits = []
       @words.each do |hash|
         hash.last.each do |word|
@@ -73,7 +86,7 @@ module LetterPress
           end
         end
       end
-      puts hits.sort.join(' ')
+      out << "\n#{hits.sort.join(' ')}"
     end
 
     private

@@ -11,7 +11,8 @@ module LetterPress
       # copies to pick letters away from
       @red   = board.red
       @pink  = board.pink
-      @blue  = board.blue
+      @lblue = board.lblue
+      @dblue = board.dblue
       @white = board.white
 
       # starting scores from the board
@@ -46,8 +47,10 @@ module LetterPress
           @blue_score += 1
         elsif @red.include?(c)
           @red = @red.sub(c,'')
-        elsif @blue.include?(c)
-          @blue = @blue.sub(c,'')
+        elsif @lblue.include?(c)
+          @lblue = @lblue.sub(c,'')
+        elsif @dblue.include?(c)
+          @dblue = @dblue.sub(c,'')
         end
       end
     end
