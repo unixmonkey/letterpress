@@ -9,11 +9,11 @@ module LetterPress
       @board = board
 
       # copies to pick letters away from
-      @red   = board.red
-      @pink  = board.pink
-      @lblue = board.lblue
-      @dblue = board.dblue
-      @white = board.white
+      @red   = board.red.map(&:letter).join
+      @pink  = board.pink.map(&:letter).join
+      @lblue = board.lblue.map(&:letter).join
+      @dblue = board.dblue.map(&:letter).join
+      @white = board.white.map(&:letter).join
 
       # starting scores from the board
       @red_score  = board.red_points

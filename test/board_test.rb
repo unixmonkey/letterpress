@@ -6,11 +6,8 @@ class TestBoard < Test::Unit::TestCase
 
   def setup
     @options = {
-      :red    => 'lbbs',
-      :pink   => 'bauofcomrr',
-      :lblue  => 'exvrpyw',
-      :dblue  => 'n',
-      :white  => 'vxz'
+      :letters => 'lbbbesauxnovrpyfcomrvxrwz',
+      :colors  => 'rrrplrppldpllllpppppwwplw'
     }
   end
 
@@ -19,24 +16,23 @@ class TestBoard < Test::Unit::TestCase
     assert_equal(0,  board.red_points,          'Red points are 0')
     assert_equal(0,  board.blue_points,         'Blue points are 0')
     assert_equal(25, board.letters.chars.count, 'There are 25 tiles on the board')
-    assert_equal(25, board.white.chars.count,   'All tiles are white')
+    assert_equal(25, board.white.count,         'All tiles are white')
   end
 
   def test_new_with_args_sets_up_the_board_with_tiles_given
     board = LetterPress::Board.new(@options)
     assert_equal(14, board.red_points)
     assert_equal(8,  board.blue_points)
-    assert_equal(4,  board.red.chars.count)
-    assert_equal(10, board.pink.chars.count)
-    assert_equal(7,  board.lblue.chars.count)
-    assert_equal(1,  board.dblue.chars.count)
-    assert_equal(3,  board.white.chars.count)
+    assert_equal(4,  board.red.count)
+    assert_equal(10, board.pink.count)
+    assert_equal(7,  board.lblue.count)
+    assert_equal(1,  board.dblue.count)
+    assert_equal(3,  board.white.count)
   end
 
   def test_to_s_shows_board_state
     board = LetterPress::Board.new()
-    assert_match(board.to_s, /red.+pink.+lblue.+dblue.+white/)
-    assert_match(board.to_s, /Score/)
+    assert(board.to_s)
   end
 
   def test_play_recauculates_score_and_changes_tile_colors
