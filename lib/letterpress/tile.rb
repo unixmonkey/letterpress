@@ -1,7 +1,7 @@
 module LetterPress
   class Tile
     
-    %w(letter color row column).each do |meth|
+    %w(letter color row column board).each do |meth|
       attr_accessor meth.to_sym
     end
 
@@ -10,6 +10,7 @@ module LetterPress
       self.color  = options[:color]
       self.row    = options[:row]
       self.column = options[:column]
+      self.board  = options[:board]
     end
 
     def to_s
@@ -31,7 +32,7 @@ module LetterPress
       [row, column]
     end
 
-    def neighbors(board)
+    def neighbors
       { :n  => board.tile_at((row - 1), column),
         :ne => board.tile_at((row - 1), (column + 1)),
         :e  => board.tile_at(row, (column + 1)),
@@ -40,6 +41,16 @@ module LetterPress
         :sw => board.tile_at((row + 1), (column - 1)),
         :w  => board.tile_at(row, (column - 1)),
         :nw => board.tile_at((row - 1), (column - 1)) }
+    end
+
+    def invert_color!
+      self.color = case color
+        when 'red' then 'dblue'
+        when 'pink' then 'lblue'
+        when 'dblue' then 'red'
+        when 'lblue' then 'pink'
+        else 'white'
+      end
     end
 
   end

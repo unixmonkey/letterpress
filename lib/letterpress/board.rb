@@ -70,7 +70,7 @@ module LetterPress
 
     def find_and_color_solids! # blue team
       tiles.each do |tile|
-        if tile.neighbors(self).values.compact.all?{|t| t.color == 'dblue' }
+        if tile.neighbors.values.compact.all?{|t| t.color == 'dblue' }
           tile.color = 'dblue'
         end
       end
@@ -114,6 +114,11 @@ module LetterPress
       tiles.detect{|t| t.row == row && t.column == column }
     end
 
+    def invert_colors!
+      tiles.each{|t| t.invert_color! }
+      self
+    end
+
 
     private
 
@@ -130,7 +135,8 @@ module LetterPress
           :letter => char,
           :color  => 'white',
           :row    => row,
-          :column => column
+          :column => column,
+          :board  => self
         )
         if column == 5
           column  = 1

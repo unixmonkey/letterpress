@@ -1,6 +1,4 @@
-$:.push File.expand_path("../../lib", __FILE__)
-require 'test/unit'
-require 'letterpress'
+require File.expand_path("../test_helper.rb", __FILE__)
 
 class TestBoard < Test::Unit::TestCase
 
@@ -66,6 +64,15 @@ class TestBoard < Test::Unit::TestCase
     assert_match(/Words with letters/, moves)
     assert_match(/clamber/, moves)
     assert_no_match(/comb/, moves)
+  end
+
+  def test_invert_colors
+    board = LetterPress::Board.new(@options)
+    assert_equal(14, board.red_points)
+    assert_equal(8,  board.blue_points)
+    board.invert_colors!
+    assert_equal(8,  board.red_points)
+    assert_equal(14, board.blue_points)
   end
 
 end
