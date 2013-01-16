@@ -2,6 +2,7 @@ $:.push File.expand_path("../../lib", __FILE__)
 require 'letterpress/board'
 require 'letterpress/word'
 require 'letterpress/tile'
+require 'letterpress/dictionary'
 
 # program is being run interactively
 if __FILE__ == $PROGRAM_NAME
