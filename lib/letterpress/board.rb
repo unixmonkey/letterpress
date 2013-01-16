@@ -52,7 +52,7 @@ module LetterPress
       lblue.size + dblue.size
     end
 
-    def play!(word) # blue team
+    def play!(word)
       word = LetterPress::Word.new(word, self)
       word.compute_score!
       if word.playable?
@@ -65,6 +65,7 @@ module LetterPress
         end
       end
       find_and_color_solids!
+      invert_colors!
       self
     end
 
@@ -96,7 +97,6 @@ module LetterPress
       tiles.each{|t| t.invert_color! }
       self
     end
-
 
     private
 
