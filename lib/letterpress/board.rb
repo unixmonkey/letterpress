@@ -1,6 +1,6 @@
 module LetterPress
   class Board
-    %w(letters colors tiles words winners).each do |meth|
+    %w(letters colors tiles dictionary).each do |meth|
       attr_accessor meth.to_sym
     end
 
@@ -8,11 +8,11 @@ module LetterPress
       self.letters = options[:letters] || ''
       self.colors  = options[:colors]  || ''
       self.tiles   = []
+      self.dictionary = options[:dictionary] ||
+        LetterPress::Dictionary.new(:board => self)
       start_random! unless letters.chars.any?
       position_tiles!
       set_colors!
-      @words   = Hash.new{|hash,key| hash[key] = [] } # assign key to empty array if access fails
-      @winners = []
     end
 
     %w(red pink lblue dblue white).each do |color|
@@ -77,37 +77,15 @@ module LetterPress
     end
 
     def possible_moves
-      compute_playable_words! if @words.empty?
-      out = ''
-      @words.sort_by{|w| "%02d" % w }.each do |score, words|
-        out << "\n**** #{score} point words ****\n#{words.join(' ')}"
-      end
-      out
+      dictionary.possible_moves
     end
 
     def winning_moves
-      compute_playable_words! if @words.empty?
-      out = "**** Winning moves: ****"
-      if @winners.any?
-        @words.each{|w| out << w }
-      else
-        out << "\nNo winning moves this turn :("
-      end
-      out
+      dictionary.winning_moves
     end
 
     def moves_with_letters(str)
-      compute_playable_words! if @words.empty?
-      out = "**** Words with letters: #{str} ****"
-      hits = []
-      @words.each do |hash|
-        hash.last.each do |word|
-          if str && str.chars.all?{|c| word.include?(c) }
-            hits << word
-          end
-        end
-      end
-      out << "\n#{hits.sort.join(' ')}"
+      dictionary.moves_with_letters(str)
     end
 
     def tile_at(row, column)
@@ -169,16 +147,6 @@ module LetterPress
         end
       end
       tiles = colored_tiles
-    end
-
-    def compute_playable_words!
-      File.open("/usr/share/dict/words").each_line do |word|
-        word = LetterPress::Word.new(word, self)
-        if word.playable? && word.score > 0
-          @winners << word.to_s if word.winning?
-          @words[word.score] << word.to_s
-        end
-      end
     end
 
   end
