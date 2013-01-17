@@ -33,16 +33,16 @@ class TestBoard < Test::Unit::TestCase
     assert(board.to_s)
   end
 
-  def test_play_recauculates_score_and_changes_tile_colors
+  def test_play_recalculates_score_and_changes_tile_colors_and_switches_player
     board = LetterPress::Board.new(@options)
     board.play!("clamber")
-    assert_equal(9,  board.red_points)
-    assert_equal(13, board.blue_points)
+    assert_equal(13,  board.red_points)
+    assert_equal(9, board.blue_points)
   end
 
   def test_possible_moves
     board = LetterPress::Board.new(@options)
-    board.words[4] << "clamber" # preload dictionary
+    board.dictionary.words[4] << "clamber" # preload dictionary
     moves = board.possible_moves
     assert_match(moves, /point words/)
     assert_match(moves, /clamber/)
@@ -50,7 +50,7 @@ class TestBoard < Test::Unit::TestCase
 
   def test_winning_moves_with_no_winning_moves
     board = LetterPress::Board.new(@options)
-    board.words[4] << "clamber" # preload dictionary
+    board.dictionary.words[4] << "clamber" # preload dictionary
     moves = board.winning_moves
     assert_match(moves, /Winning moves/)
     assert_match(moves, /No winning moves/)
@@ -58,8 +58,8 @@ class TestBoard < Test::Unit::TestCase
 
   def test_moves_with_letters
     board = LetterPress::Board.new(@options)
-    board.words[4] << "clamber" # preload dictionary
-    board.words[4] << "comb"
+    board.dictionary.words[4] << "clamber" # preload dictionary
+    board.dictionary.words[4] << "comb"
     moves = board.moves_with_letters('rmb')
     assert_match(/Words with letters/, moves)
     assert_match(/clamber/, moves)
