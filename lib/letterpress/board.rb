@@ -63,10 +63,11 @@ module LetterPress
             letter.color = 'lblue'
           end
         end
+        find_and_color_solids!
+        invert_colors!
+        # remove word from dictionary
+        # recompute winning
       end
-      find_and_color_solids!
-      invert_colors!
-      self
     end
 
     def find_and_color_solids! # blue team

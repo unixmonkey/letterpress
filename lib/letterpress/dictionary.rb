@@ -1,7 +1,7 @@
 module LetterPress
   class Dictionary
 
-    %w(board source words winners).each do |meth|
+    %w(board source words winners played).each do |meth|
       attr_accessor meth.to_sym
     end
 
@@ -10,6 +10,7 @@ module LetterPress
       self.source = options[:source] || '/usr/share/dict/words'
       self.words  = Hash.new{|hash,key| hash[key] = [] } # assign key to empty array if access fails
       self.winners = []
+      self.played  = []
     end
 
     def possible_moves
@@ -22,7 +23,7 @@ module LetterPress
     end
 
     def winning_moves
-      compute_playable_words! if words.empty?
+      compute_playable_words! if words.empty? # must recompute every play :/
       out = "**** Winning moves: ****"
       if winners.any?
         words.each{|w| out << w }
