@@ -28,7 +28,7 @@ module LetterPress
       !@word.each_char.map do |c|
         @board.letters.include?(c) &&                      # word contains all given letters
         (@word.scan(c).size <= @board.letters.scan(c).size) # there are no more instances of a letter than counted in @board.letters
-      end.include?(false)
+      end.include?(false) && @word.size > 1                 # more than 1 letter
     end
 
     def winning?
