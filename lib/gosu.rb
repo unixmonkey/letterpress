@@ -16,7 +16,7 @@ class GameWindow < Gosu::Window
 
     self.caption = 'LetterPress'
     @white = Gosu::Color::WHITE
-    @bg    = Gosu::Color::GREEN
+    @bg    = @white
     @board = LetterPress::Board.new(
       :letters => 'lbbbesauxnovrpyfcomrvxrwz',
       :colors => 'rrrplrppldpllllpppppwwplw')
@@ -28,6 +28,7 @@ class GameWindow < Gosu::Window
 
   def draw
     draw_background
+    draw_score
     @board.tiles.each do |tile|
       y_pos = (tile.row-1)*@tsize + (@tsize*2)
       x_pos = (tile.column-1)*@tsize
@@ -41,11 +42,18 @@ class GameWindow < Gosu::Window
   def color(c)
     case c
       when 'red' then Gosu::Color::RED
-      when 'pink' then Gosu::Color.new(0xff00ff)
-      when 'lblue' then Gosu::Color::BLUE
+      when 'pink' then Gosu::Color::FUCHSIA
+      when 'lblue' then Gosu::Color::AQUA
       when 'dblue' then Gosu::Color::BLUE
       else Gosu::Color::WHITE
     end
+  end
+
+  def draw_score
+    draw_tile( (@tsize*1.25), (@tsize/2), color('red') )
+    @font.draw_rel(@board.red_points, ((@tsize/1.25)+25), ((@tsize/2)+25), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
+    draw_tile( (@tsize*2.75), (@tsize/2), color('dblue') )
+    @font.draw_rel(@board.blue_points, ((@tsize/2.75)+25), ((@tsize/2)+25), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
   end
 
   def draw_background
