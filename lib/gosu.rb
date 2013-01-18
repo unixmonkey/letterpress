@@ -17,7 +17,9 @@ class GameWindow < Gosu::Window
     self.caption = 'LetterPress'
     @white = Gosu::Color::WHITE
     @bg    = Gosu::Color::GREEN
-    @board = LetterPress::Board.new(:letters => 'lbbbesauxnovrpyfcomrvxrwz', :colors => 'rrrplrppldpllllpppppwwplw')
+    @board = LetterPress::Board.new(
+      :letters => 'lbbbesauxnovrpyfcomrvxrwz',
+      :colors => 'rrrplrppldpllllpppppwwplw')
     @font = Gosu::Font.new(self, Gosu::default_font_name, 35)
   end
 
@@ -27,8 +29,8 @@ class GameWindow < Gosu::Window
   def draw
     draw_background
     @board.tiles.each do |tile|
-      x_pos = (tile.row-1)*@tsize
-      y_pos = (tile.column-1)*@tsize + 100
+      y_pos = (tile.row-1)*@tsize + (@tsize*2)
+      x_pos = (tile.column-1)*@tsize
       draw_tile(x_pos, y_pos, color(tile.color))
       @font.draw_rel(tile.letter.upcase, (x_pos+(@tsize/2)), (y_pos+(@tsize/2)), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
     end
