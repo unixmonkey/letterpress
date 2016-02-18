@@ -44,16 +44,16 @@ class TestBoard < Test::Unit::TestCase
     board = LetterPress::Board.new(@options)
     board.dictionary.words[4] << "clamber" # preload dictionary
     moves = board.possible_moves
-    assert_match(moves, /point words/)
-    assert_match(moves, /clamber/)
+    assert_match /point words/, moves
+    assert_match /clamber/, moves
   end
 
   def test_winning_moves_with_no_winning_moves
     board = LetterPress::Board.new(@options)
     board.dictionary.words[4] << "clamber" # preload dictionary
     moves = board.winning_moves
-    assert_match(moves, /Winning moves/)
-    assert_match(moves, /No winning moves/)
+    assert_match /Winning moves/, moves
+    assert_match /No winning moves/, moves
   end
 
   def test_moves_with_letters
