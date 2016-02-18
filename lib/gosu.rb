@@ -21,6 +21,7 @@ class GameWindow < Gosu::Window
       :letters => 'lbbbesauxnovrpyfcomrvxrwz',
       :colors => 'rrrplrppldpllllpppppwwplw')
     @font = Gosu::Font.new(self, Gosu::default_font_name, 35)
+    @chosen_tiles = []
   end
 
   def update
@@ -29,15 +30,31 @@ class GameWindow < Gosu::Window
   def draw
     draw_background
     draw_score
-    @board.tiles.each do |tile|
-      y_pos = (tile.row-1)*@tsize + (@tsize*2)
-      x_pos = (tile.column-1)*@tsize
-      draw_tile(x_pos, y_pos, color(tile.color))
-      @font.draw_rel(tile.letter.upcase, (x_pos+(@tsize/2)), (y_pos+(@tsize/2)), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
+    draw_chosen_tiles
+    draw_gameboard
+  end
+
+  def button_down(id)
+    case id
+    when Gosu::MsLeft
+      tile = tile_at_coords(mouse_x, mouse_y)
+      @chosen_tiles << tile if tile
+    when char_to_button_id('q') || Gosu::KbEscape
+      exit(1)
     end
   end
 
   private
+
+  def tile_at_coords(x, y)
+    column = (@tsize..width).step(@tsize).each_with_index.detect { |step, index| x < step }.last + 1
+    row = (150..height).step(@tsize).each_with_index.detect { |step, index| y < step }.last + 1
+    @board.tiles.detect { |tile|
+      (tile.row == row) &&
+      (tile.column == column) &&
+      !@chosen_tiles.include?(tile)
+    }
+  end
 
   def color(c)
     case c
@@ -50,10 +67,30 @@ class GameWindow < Gosu::Window
   end
 
   def draw_score
-    draw_tile( (@tsize*1.25), (@tsize/2), color('red') )
-    @font.draw_rel(@board.red_points, ((@tsize/1.25)+25), ((@tsize/2)+25), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
-    draw_tile( (@tsize*2.75), (@tsize/2), color('dblue') )
-    @font.draw_rel(@board.blue_points, ((@tsize/2.75)+25), ((@tsize/2)+25), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
+    draw_tile( (@tsize*1.25), 0, color('red') )
+    @font.draw_rel(@board.red_points, (@tsize*1.75), (@tsize/2), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
+    draw_tile( (@tsize*2.75), 0, color('dblue') )
+    @font.draw_rel(@board.blue_points, (@tsize*3.25), (@tsize/2), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
+  end
+
+  def draw_chosen_tiles
+    @chosen_tiles.each_with_index do |tile, index|
+      x_pos = @tsize * index
+      offset = @tsize
+      draw_tile( x_pos, offset, color(tile.color) )
+      @font.draw_rel(tile.letter.upcase, (x_pos+(offset/2)), (@tsize+(offset/2)), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
+    end
+  end
+
+  def draw_gameboard
+    @board.tiles.each do |tile|
+      y_pos = (tile.row-1)*@tsize + (@tsize*2)
+      x_pos = (tile.column-1)*@tsize
+      unless @chosen_tiles.include?(tile)
+        draw_tile(x_pos, y_pos, color(tile.color))
+        @font.draw_rel(tile.letter.upcase, (x_pos+(@tsize/2)), (y_pos+(@tsize/2)), 1, 0.5, 0.5, 1.0, 1.0, Gosu::Color::BLACK)
+      end
+    end
   end
 
   def draw_background
