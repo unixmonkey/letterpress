@@ -28,8 +28,6 @@ if __FILE__ == $PROGRAM_NAME
     end
   end
 
-  # require 'pry'; binding.pry
-
   if help
     puts "letterpress.rb",
          "Usage:",
