@@ -1,6 +1,6 @@
 # letterpress
 
-A fun project to see how well I can simulate the state of a Letterpress game board
+A fun toy project to see how well I can simulate the state of a [Letterpress](https://itunes.apple.com/us/app/letterpress-word-game/id526619424?mt=8) game board.
 
 ## Usage:
 
@@ -23,6 +23,21 @@ A fun project to see how well I can simulate the state of a Letterpress game boa
 
     # start up a new game using the [Gosu](https://www.libgosu.org/) Ruby game engine (warning, still needs a lot of work)
     ruby lib/gosu.rb
+
+## Screenshots:
+
+### VS the Computer
+
+![vs_computer.png](docs/media/vs_computer.png)
+
+### Cheat Mode
+
+![cheat_mode.png](docs/media/cheat_mode.png)
+
+### Gosu Board Interface
+
+![gosu_board.png](docs/media/gosu_board.png)
+
 
 ## Limitations:
 
