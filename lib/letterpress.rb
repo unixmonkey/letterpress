@@ -69,11 +69,16 @@ if __FILE__ == $PROGRAM_NAME
       pword = gets
       if board.play!(pword)       # player play
         puts "Player plays: #{pword}"
-
+        puts board
         points_to_play = words.keys[rand(words.keys.size)]
         word = words[points_to_play][rand(words[points_to_play].size)]
+        puts 'thinking.'
+        5.times do
+          sleep 0.5
+          print '.'
+        end
         puts "Computer plays: #{word} for #{points_to_play} points"
-        
+
         board.play!(word) # computer play
         puts board
       else
