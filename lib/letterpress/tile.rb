@@ -1,6 +1,6 @@
 module LetterPress
   class Tile
-    
+
     %w(letter color row column board).each do |meth|
       attr_accessor meth.to_sym
     end
@@ -25,7 +25,7 @@ module LetterPress
         when 'dblue' then 44
         else 7
       end
-      "\e[#{color_code}m#{letter}\e[0m"
+      "\e[#{color_code}m #{letter} \e[0m"
     end
 
     def position
