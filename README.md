@@ -24,7 +24,3 @@ Limitations:
 If a letter can be chosen from many places on the board, it will pick the one that would
 give the best score advantage, all things equal it will pick the first one on the board,
 this may interfere with a strategy to cluster letters together to make solid red or blue tiles.
-
-Todo:
-
-Remove words from the dictionary when played
