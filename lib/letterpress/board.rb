@@ -65,7 +65,7 @@ module LetterPress
         end
         find_and_color_solids!
         invert_colors!
-        # remove word from dictionary
+        dictionary.played << word
         # recompute winning
       end
     end
