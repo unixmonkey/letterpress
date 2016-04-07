@@ -17,9 +17,9 @@ class GameWindow < Gosu::Window
     self.caption = 'LetterPress'
     @white = Gosu::Color::WHITE
     @bg    = @white
-    @board = LetterPress::Board.new(
-      :letters => 'lbbbesauxnovrpyfcomrvxrwz',
-      :colors => 'rrrplrppldpllllpppppwwplw')
+    @board = LetterPress::Board.new #(
+      # :letters => 'lbbbesauxnovrpyfcomrvxrwz',
+      # :colors => 'rrrplrppldpllllpppppwwplw')
     @font = Gosu::Font.new(self, Gosu::default_font_name, 35)
     @chosen_tiles = []
   end

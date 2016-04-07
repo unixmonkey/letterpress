@@ -19,6 +19,9 @@ Examples:
   # start a new game from scratch and play against the computer
   ruby lib/letterpress.rb
 
+  # start up a new game using the [Gosu](https://www.libgosu.org/) Ruby game engine (warning, still needs a lot of work)
+  ruby lib/gosu.rb
+
 Limitations:
 
 If a letter can be chosen from many places on the board, it will pick the one that would
