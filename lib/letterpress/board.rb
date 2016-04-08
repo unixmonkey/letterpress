@@ -4,21 +4,21 @@ module LetterPress
       attr_accessor meth.to_sym
     end
 
-    def initialize(options={}, *args)
+    def initialize(options = {}, *_args)
       self.letters = options[:letters] || ''
-      self.colors  = options[:colors]  || ''
+      self.colors  = options[:colors] || ''
       self.tiles   = []
       self.dictionary = options[:dictionary] ||
-        LetterPress::Dictionary.new(:board => self)
+        LetterPress::Dictionary.new(board: self)
       start_random! unless letters.chars.any?
       position_tiles!
       set_colors!
     end
 
     %w(red pink lblue dblue white).each do |color|
-      self.class_eval do
+      class_eval do
         define_method(color) do
-          tiles.select{|t| t.color == color }
+          tiles.select { |t| t.color == color }
         end
       end
     end
@@ -39,8 +39,8 @@ module LetterPress
     end
 
     def to_s
-      red  = LetterPress::Tile.new(:color=>'red',   :letter=>red_points).colored
-      blue = LetterPress::Tile.new(:color=>'dblue', :letter=>blue_points).colored
+      red  = LetterPress::Tile.new(color: 'red',   letter: red_points).colored
+      blue = LetterPress::Tile.new(color: 'dblue', letter: blue_points).colored
       "#{red} #{blue}\n\n#{grid}"
     end
 
@@ -57,9 +57,9 @@ module LetterPress
       word.compute_score!
       if word.playable?
         word.to_s.chars.each do |c|
-          if letter = pink.detect{|t| t.letter == c }
+          if letter = pink.detect { |t| t.letter == c }
             letter.color = 'lblue'
-          elsif letter = white.detect{|t| t.letter == c }
+          elsif letter = white.detect { |t| t.letter == c }
             letter.color = 'lblue'
           end
         end
@@ -72,7 +72,7 @@ module LetterPress
 
     def find_and_color_solids! # blue team
       tiles.each do |tile|
-        if tile.neighbors.values.compact.all?{|t| t.color == 'dblue' }
+        if tile.neighbors.values.compact.all? { |t| t.color == 'dblue' }
           tile.color = 'dblue'
         end
       end
@@ -91,11 +91,11 @@ module LetterPress
     end
 
     def tile_at(row, column)
-      tiles.detect{|t| t.row == row && t.column == column }
+      tiles.detect { |t| t.row == row && t.column == column }
     end
 
     def invert_colors!
-      tiles.each{|t| t.invert_color! }
+      tiles.each(&:invert_color!)
       self
     end
 
@@ -103,23 +103,23 @@ module LetterPress
 
     def start_random!
       alphabet = ('a'..'z').to_a
-      25.times { self.letters << alphabet[rand(alphabet.size)] }
+      25.times { letters << alphabet[rand(alphabet.size)] }
     end
 
     def position_tiles!
       self.tiles = []
       row = column = 1
       letters.chars.each do |char|
-        self.tiles << LetterPress::Tile.new(
-          :letter => char,
-          :color  => 'white',
-          :row    => row,
-          :column => column,
-          :board  => self
+        tiles << LetterPress::Tile.new(
+          letter: char,
+          color: 'white',
+          row: row,
+          column: column,
+          board: self
         )
         if column == 5
           column  = 1
-          row    += 1
+          row += 1
         else
           column += 1
         end
@@ -142,13 +142,12 @@ module LetterPress
         colored_tiles << t
         if column == 5
           column  = 1
-          row    += 1
+          row += 1
         else
           column += 1
         end
       end
       tiles = colored_tiles
     end
-
   end
 end

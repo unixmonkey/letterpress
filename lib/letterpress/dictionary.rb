@@ -1,6 +1,5 @@
 module LetterPress
   class Dictionary
-
     %w(board source words winners played).each do |meth|
       attr_accessor meth.to_sym
     end
@@ -9,6 +8,8 @@ module LetterPress
       self.board  = options[:board]
       self.source = options[:source] || '/usr/share/dict/words'
       self.words  = Hash.new{|hash,key| hash[key] = [] } # assign key to empty array if access fails
+      # assign key to empty array if access fails
+      self.words  = Hash.new { |hash, key| hash[key] = [] }
       self.winners = []
       self.played  = []
     end
@@ -16,7 +17,7 @@ module LetterPress
     def possible_moves
       compute_playable_words! if words.empty?
       out = ''
-      words.sort_by{|w| "%02d" % w }.each do |score, words|
+      words.sort_by { |w| '%02d' % w }.each do |score, words|
         out << "\n**** #{score} point words ****\n#{words.join(' ')}"
       end
       out
@@ -24,9 +25,9 @@ module LetterPress
 
     def winning_moves
       compute_playable_words! if words.empty? # must recompute every play :/
-      out = "**** Winning moves: ****"
+      out = '**** Winning moves: ****'
       if winners.any?
-        words.each{|w| out << w }
+        words.each { |w| out << w }
       else
         out << "\nNo winning moves this turn :("
       end
@@ -39,7 +40,7 @@ module LetterPress
       hits = []
       words.each do |hash|
         hash.last.each do |word|
-          if str && str.chars.all?{|c| word.include?(c) }
+          if str && str.chars.all? { |c| word.include?(c) }
             hits << word
           end
         end
@@ -74,6 +75,5 @@ module LetterPress
         end
       end
     end
-
   end
 end

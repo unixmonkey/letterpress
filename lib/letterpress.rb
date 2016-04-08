@@ -1,4 +1,4 @@
-$:.push File.expand_path("../../lib", __FILE__)
+$LOAD_PATH.push File.expand_path('../../lib', __FILE__)
 require 'letterpress/board'
 require 'letterpress/word'
 require 'letterpress/tile'
@@ -9,10 +9,10 @@ if __FILE__ == $PROGRAM_NAME
 
   require 'getoptlong'
   opts = GetoptLong.new(
-    [ '--help',     '-h', GetoptLong::NO_ARGUMENT       ],
-    [ '--letters',  '-l', GetoptLong::REQUIRED_ARGUMENT ],
-    [ '--colors',   '-c', GetoptLong::REQUIRED_ARGUMENT ],
-    [ '--required', '-r', GetoptLong::OPTIONAL_ARGUMENT ]
+    ['--help',     '-h', GetoptLong::NO_ARGUMENT      ],
+    ['--letters',  '-l', GetoptLong::REQUIRED_ARGUMENT],
+    ['--colors',   '-c', GetoptLong::REQUIRED_ARGUMENT],
+    ['--required', '-r', GetoptLong::OPTIONAL_ARGUMENT]
   )
   help = letters = colors = required = nil
   opts.each do |opt, arg|
@@ -47,8 +47,8 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   board = LetterPress::Board.new(
-    :letters => letters,
-    :colors  => colors
+    letters: letters,
+    colors: colors
   )
   puts board
   puts
@@ -58,14 +58,14 @@ if __FILE__ == $PROGRAM_NAME
     puts
     puts board.winning_moves
   else
-    puts "Loading dictionary...please wait:"
+    puts 'Loading dictionary...please wait:'
     board.dictionary.compute_playable_words!
     words = board.dictionary.words
     while true
       # until winning move is played
-      puts "Play a word: "
+      puts 'Play a word: '
       pword = gets
-      if board.play!(pword)       # player play
+      if board.play!(pword) # player play
         puts "Player plays: #{pword}"
         puts board
         points_to_play = words.keys[rand(words.keys.size)]

@@ -33,25 +33,25 @@ module LetterPress
     end
 
     def winning?
-      @white.empty? &&           # must use all white tiles
-      (@blue_score > @red_score) # and have a winning score
+      @white.empty? && # must use all white tiles
+        (@blue_score > @red_score) # and have a winning score
     end
 
     def compute_score!
       @word.chars.each do |c|
         if @pink.include?(c)
-          @pink = @pink.sub(c,'') # remove from available tiles
-          @red_score  -= 1
+          @pink = @pink.sub(c, '') # remove from available tiles
+          @red_score -= 1
           @blue_score += 1
         elsif @white.include?(c)
-          @white = @white.sub(c,'')
+          @white = @white.sub(c, '')
           @blue_score += 1
         elsif @red.include?(c)
-          @red = @red.sub(c,'')
+          @red = @red.sub(c, '')
         elsif @lblue.include?(c)
-          @lblue = @lblue.sub(c,'')
+          @lblue = @lblue.sub(c, '')
         elsif @dblue.include?(c)
-          @dblue = @dblue.sub(c,'')
+          @dblue = @dblue.sub(c, '')
         end
       end
     end
