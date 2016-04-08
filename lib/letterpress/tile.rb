@@ -28,13 +28,17 @@ module LetterPress
       {
         n:  board.tile_at((row - 1), column),
         ne: board.tile_at((row - 1), (column + 1)),
-        e:  board.tile_at(row, (column + 1)),
+        e:  board.tile_at(row,       (column + 1)),
         se: board.tile_at((row + 1), (column + 1)),
         s:  board.tile_at((row + 1), column),
         sw: board.tile_at((row + 1), (column - 1)),
-        w:  board.tile_at(row, (column - 1)),
+        w:  board.tile_at(row,       (column - 1)),
         nw: board.tile_at((row - 1), (column - 1))
       }
+    end
+
+    def nesw_neighbors
+      neighbors.values_at(:n, :e, :s, :w)
     end
 
     def invert_color!

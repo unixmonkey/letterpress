@@ -76,8 +76,9 @@ if __FILE__ == $PROGRAM_NAME
           print '.'
         end
         puts "Computer plays: #{word} for #{points_to_play} points"
-
+        board.invert_colors! # flip to computer view
         board.play!(word) # computer play
+        board.invert_colors! # show player's view again before showing
         puts board
       else
         puts "#{pword} is not a playable word."

@@ -64,7 +64,6 @@ module LetterPress
           end
         end
         find_and_color_solids!
-        invert_colors!
         dictionary.played << word
         # recompute winning
       end
@@ -72,8 +71,10 @@ module LetterPress
 
     def find_and_color_solids! # blue team
       tiles.each do |tile|
-        if tile.neighbors.values.compact.all? { |t| t.color == 'dblue' }
-          tile.color = 'dblue'
+        if should_become_solid?(tile)
+          tile.color = (tile.color == 'lblue') ? 'dblue' : 'red'
+        elsif should_become_unsolid?(tile)
+          tile.color = (tile.color == 'dblue') ? 'lblue' : 'pink'
         end
       end
     end
@@ -148,6 +149,26 @@ module LetterPress
         end
       end
       tiles = colored_tiles
+    end
+
+    def should_become_solid?(tile)
+      return false if ['white', 'red', 'dblue'].include?(tile.color)
+      nesw_colors(tile).uniq.all? { |color| color == tile.color }
+    end
+
+    def should_become_unsolid?(tile)
+      return false if ['white', 'lblue', 'pink'].include?(tile.color)
+      nesw_colors(tile).uniq.any? do |color|
+        if tile.color == 'red'
+          ['dblue', 'lblue'].include?(color)
+        elsif tile.color == 'dblue'
+          ['red', 'pink'].include?(color)
+        end
+      end
+    end
+
+    def nesw_colors(tile)
+      nesw_colors = tile.neighbors.values_at(:n, :e, :s, :w).compact.map(&:color)
     end
   end
 end
