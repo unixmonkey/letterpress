@@ -17,13 +17,6 @@ module LetterPress
     end
 
     def colored
-      color_code = case color.to_s
-        when 'red'   then 41
-        when 'pink'  then 45
-        when 'lblue' then 46
-        when 'dblue' then 44
-        else 7
-      end
       "\e[#{color_code}m #{letter} \e[0m"
     end
 
@@ -51,6 +44,18 @@ module LetterPress
         when 'dblue' then 'red'
         when 'lblue' then 'pink'
         else 'white'
+      end
+    end
+
+    private
+
+    def color_code
+      case color.to_s
+        when 'red'   then 41
+        when 'pink'  then 45
+        when 'lblue' then 46
+        when 'dblue' then 44
+        else 7
       end
     end
   end

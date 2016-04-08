@@ -27,9 +27,9 @@ module LetterPress
     def playable?
       !@board.dictionary.played.include?(@word) &&
         !@word.each_char.map do |c|
-          @board.letters.include?(c) &&                      # word contains all given letters
-          (@word.scan(c).size <= @board.letters.scan(c).size) # there are no more instances of a letter than counted in @board.letters
-        end.include?(false) && @word.size > 1                 # more than 1 letter
+          letter_is_on_board?(c) &&
+          letter_frequency_ok?(c)
+        end.include?(false) && @word.size > 1 # more than 1 letter
     end
 
     def winning?
@@ -59,6 +59,17 @@ module LetterPress
     def score
       compute_score!
       (@blue_score - @red_score)
+    end
+
+    private
+
+    def letter_is_on_board?(letter)
+      @board.letters.include?(letter)
+    end
+
+    def letter_frequency_ok?(letter)
+      # there are no more instances of a letter than counted in @board.letters
+      (@word.scan(letter).size <= @board.letters.scan(letter).size)
     end
 
   end
