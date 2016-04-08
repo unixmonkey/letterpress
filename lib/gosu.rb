@@ -45,6 +45,10 @@ class GameWindow < Gosu::Window
 
   private
 
+  def needs_cursor?
+    true
+  end
+
   def tile_at_coords(x, y)
     column = (@tsize..width).step(@tsize).each_with_index.detect { |step, index| x < step }.last + 1
     row = (150..height).step(@tsize).each_with_index.detect { |step, index| y < step }.last + 1
