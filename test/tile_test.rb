@@ -9,7 +9,7 @@ class TestTile < Test::Unit::TestCase
 
   def test_colored
     tile = LetterPress::Tile.new(:color => 'red', :letter => 'r')
-    assert_equal("\e[41mr\e[0m", tile.colored)
+    assert_equal("\e[41m r \e[0m", tile.colored)
   end
 
   def test_position
